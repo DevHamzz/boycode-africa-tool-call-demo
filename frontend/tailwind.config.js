@@ -4,24 +4,21 @@ export default {
   theme: {
     extend: {
       colors: {
-        cream: {
-          50: '#fafaf8',
-          100: '#f5f5f0',
-          200: '#eeede6',
-          300: '#e4e3d9',
-        },
-        brand: {
-          purple: '#7c6ff7',
-          'purple-light': '#a89ff9',
-          'purple-dark': '#5b52d4',
+        zinc: {
+          950: '#09090b',
         },
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
       },
       boxShadow: {
-        card: '0 1px 4px 0 rgba(0,0,0,0.06), 0 0 0 1px rgba(0,0,0,0.04)',
-        'card-hover': '0 4px 16px 0 rgba(0,0,0,0.10), 0 0 0 1px rgba(0,0,0,0.04)',
+        'card': '0 1px 3px rgba(0,0,0,0.4), 0 0 0 1px rgba(255,255,255,0.05)',
+        'card-hover': '0 4px 20px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.08)',
+        'glow-sm': '0 0 20px rgba(139,92,246,0.2)',
+        'glow-md': '0 0 40px rgba(139,92,246,0.3)',
+      },
+      backgroundImage: {
+        'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
       },
     },
   },

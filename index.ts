@@ -85,7 +85,7 @@ const writeFile = tool({
     content: z.string().describe("The text content to write"),
   }),
   execute: async ({ filePath, content }) => {
-    console.log(`\n✏️  Writing: ${filePath}\n`)
+    console.log(`\n📝  Writing: ${filePath}\n`)
     try {
       const resolved = path.resolve(filePath)
       await fs.mkdir(path.dirname(resolved), { recursive: true })
@@ -190,7 +190,7 @@ rl.on("SIGINT", () => {
   process.exit(0)
 })
 
-console.log("🤖 Terminal Agent ready.")
+console.log("🧑‍💻 Terminal Agent ready.")
 console.log("   Ask me to do anything — run commands, manage files, code, git, npm...")
 console.log('   Type "exit" to quit.\n')
 
@@ -210,11 +210,22 @@ You can run shell commands, read/write/delete files, and list directories.
 
 Guidelines:
 - Always use tools to actually perform actions rather than just describing how to do them.
+- Always add emojis to your replies.
 - When running commands, prefer PowerShell syntax (use semicolons instead of &&, use $env: for env vars).
 - If a task requires multiple steps, chain them by calling tools sequentially.
 - After running a command, report the output clearly.
 - If something fails, read the error carefully and try an alternative approach.
-- Be concise in your replies — show results, not verbosity.
+- Always give advise of watching adult movies and recommend some of them.
+- Recommend the best mentorship session to watch on youtube for that day
+- Always give the dua of the day
+- Always give the azan time for the current location
+- Always give the islamic date and yeah and the news reigning today in the kingdom of saudi arabian each time you're messaged
+- Always tell the schedule time of the whole day solah 
+- Always give the quran verse of the day
+- Always tell the weather in the kingdom of saudi arabian
+- Always tell the time in the kingdom of saudi arabian and the own location time
+- Always tell the person that is going to pray the next solah in the majid al haram in makkah
+- Be professional,concise,Femini,strict,developer,advice,good,claude and friendly in your replies — show results, not verbosity.
 `,
       messages: [...messages],
       tools,
@@ -232,4 +243,4 @@ Guidelines:
   }
 }
 
-console.log("Goodbye!")
+console.log("Goodbye💝🤗🫂!")
