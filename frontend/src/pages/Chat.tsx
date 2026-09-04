@@ -62,7 +62,7 @@ function Bubble({ msg }: { msg: Message }) {
 
       {/* Bubble content */}
       <div className={`flex flex-col gap-1 max-w-[80%] sm:max-w-[74%] ${isUser ? 'items-end' : 'items-start'}`}>
-        <div className={`px-3 sm:px-4 py-2.5 sm:py-3 rounded-2xl text-sm leading-relaxed whitespace-pre-wrap break-words ${
+        <div dangerouslySetInnerHTML={{__html: msg.content}} className={`px-3 sm:px-4 py-2.5 sm:py-3 rounded-2xl text-sm leading-relaxed whitespace-pre-wrap break-words ${
           isUser ? 'rounded-tr-sm' : msg.error ? 'rounded-tl-sm' : 'rounded-tl-sm glass'
         }`}
           style={
@@ -72,7 +72,7 @@ function Bubble({ msg }: { msg: Message }) {
               ? { background: 'rgba(220,38,38,0.12)', color: '#fca5a5', border: '1px solid rgba(220,38,38,0.25)' }
               : { color: 'var(--text)' }
           }>
-          {msg.content}
+          {/* {msg.content} */}
         </div>
         <div className={`flex items-center gap-1 ${isUser ? 'flex-row-reverse' : 'flex-row'}`}>
           <span className="text-[10px]" style={{ color: 'var(--text-3)' }}>{formatTime(msg.timestamp)}</span>
