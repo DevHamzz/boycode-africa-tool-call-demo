@@ -8,19 +8,20 @@ import { HiOutlineLightningBolt } from 'react-icons/hi'
 
 const AVATAR_IMG = 'https://images.unsplash.com/photo-1633332755192-727a05c4013d?w=200&q=80&auto=format&fit=crop'
 
+// The settings schema drives the repeated controls shown in the settings page.
 interface SettingItem {
   id: string; label: string; desc: string
   type: 'select' | 'toggle' | 'text'; options?: string[]
 }
 
 const SETTINGS: SettingItem[] = [
-  { id: 'model',     label: 'AI Model',      desc: 'DeepSeek model used for all responses.',     type: 'select', options: ['deepseek-chat', 'deepseek-coder', 'deepseek-reasoner'] },
-  { id: 'streaming', label: 'Streaming',     desc: 'Show output word-by-word as it arrives.',    type: 'toggle' },
-  { id: 'toolCalls', label: 'Tool Calls',    desc: 'Allow AI to run commands and manage files.', type: 'toggle' },
-  { id: 'sysPrompt', label: 'System Prompt', desc: 'Custom instructions for every session.',     type: 'text' },
+  { id: 'model', label: 'AI Model', desc: 'DeepSeek model used for all responses.', type: 'select', options: ['deepseek-chat', 'deepseek-coder', 'deepseek-reasoner'] },
+  { id: 'streaming', label: 'Streaming', desc: 'Show output word-by-word as it arrives.', type: 'toggle' },
+  { id: 'toolCalls', label: 'Tool Calls', desc: 'Allow AI to run commands and manage files.', type: 'toggle' },
+  { id: 'sysPrompt', label: 'System Prompt', desc: 'Custom instructions for every session.', type: 'text' },
 ]
 
-// ── Animated toggle ───────────────────────────────────────────────────────────
+// Reusable binary control used by boolean settings.
 function Toggle({ on, onToggle }: { on: boolean; onToggle: () => void }) {
   return (
     <button role="switch" aria-checked={on} onClick={onToggle}
@@ -60,9 +61,9 @@ export default function Settings() {
     model: 'deepseek-chat', streaming: false, toolCalls: true, sysPrompt: '',
   })
   const [showKey, setShowKey] = useState(false)
-  const [saved,   setSaved]   = useState(false)
+  const [saved, setSaved] = useState(false)
 
-  const set  = (id: string, v: string | boolean) => setValues((p) => ({ ...p, [id]: v }))
+  const set = (id: string, v: string | boolean) => setValues((p) => ({ ...p, [id]: v }))
   const save = () => { setSaved(true); setTimeout(() => setSaved(false), 2000) }
 
   return (

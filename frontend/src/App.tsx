@@ -5,12 +5,14 @@ import Dashboard from './pages/Dashboard'
 import Chat from './pages/Chat'
 import Activity from './pages/Activity'
 import Settings from './pages/Settings'
+import Login from './pages/Login'
 
 export default function App() {
   const location = useLocation()
 
   return (
     <Routes location={location} key={location.pathname}>
+      <Route path="/login" element={<Login />} />
       <Route path="/" element={<Layout />}>
         <Route index element={<Navigate to="/dashboard" replace />} />
         <Route path="dashboard" element={

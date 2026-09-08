@@ -14,17 +14,19 @@ interface Message {
   error?: boolean
 }
 
+// Suggestions provide useful first actions when a conversation has not started yet.
 const SUGGESTIONS = [
-  { icon: RiCodeSSlashLine,  text: 'Explain async/await in JavaScript',    color: 'text-violet-400' },
-  { icon: RiRobot2Line,      text: 'Write a Python function to sort a list', color: 'text-sky-400' },
-  { icon: RiGlobalLine,      text: 'Best practices for REST API design',    color: 'text-emerald-400' },
-  { icon: RiTerminalBoxLine, text: 'How do I list all running processes?',  color: 'text-amber-400' },
+  { icon: RiCodeSSlashLine, text: 'Explain async/await in JavaScript', color: 'text-violet-400' },
+  { icon: RiRobot2Line, text: 'Write a Python function to sort a list', color: 'text-sky-400' },
+  { icon: RiGlobalLine, text: 'Best practices for REST API design', color: 'text-emerald-400' },
+  { icon: RiTerminalBoxLine, text: 'How do I list all running processes?', color: 'text-amber-400' },
 ]
 
 function formatTime(d: Date) {
   return d.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' })
 }
 
+// Copy the assistant's raw response without changing its formatting.
 // ── Copy button ───────────────────────────────────────────────────────────────
 function CopyBtn({ text }: { text: string }) {
   const [ok, setOk] = useState(false)
@@ -42,6 +44,7 @@ function CopyBtn({ text }: { text: string }) {
 
 // ── Message bubble ────────────────────────────────────────────────────────────
 function Bubble({ msg }: { msg: Message }) {
+  // User and assistant messages use opposite alignment and distinct visual treatment.
   const isUser = msg.role === 'user'
   return (
     <motion.div
@@ -62,15 +65,14 @@ function Bubble({ msg }: { msg: Message }) {
 
       {/* Bubble content */}
       <div className={`flex flex-col gap-1 max-w-[80%] sm:max-w-[74%] ${isUser ? 'items-end' : 'items-start'}`}>
-        <div dangerouslySetInnerHTML={{__html: msg.content}} className={`px-3 sm:px-4 py-2.5 sm:py-3 rounded-2xl text-sm leading-relaxed whitespace-pre-wrap break-words ${
-          isUser ? 'rounded-tr-sm' : msg.error ? 'rounded-tl-sm' : 'rounded-tl-sm glass'
-        }`}
+        <div dangerouslySetInnerHTML={{ __html: msg.content }} className={`px-3 sm:px-4 py-2.5 sm:py-3 rounded-2xl text-sm leading-relaxed whitespace-pre-wrap break-words ${isUser ? 'rounded-tr-sm' : msg.error ? 'rounded-tl-sm' : 'rounded-tl-sm glass'
+          }`}
           style={
             isUser
               ? { background: 'var(--accent)', color: '#fff', boxShadow: '0 4px 20px var(--glow)' }
               : msg.error
-              ? { background: 'rgba(220,38,38,0.12)', color: '#fca5a5', border: '1px solid rgba(220,38,38,0.25)' }
-              : { color: 'var(--text)' }
+                ? { background: 'rgba(220,38,38,0.12)', color: '#fca5a5', border: '1px solid rgba(220,38,38,0.25)' }
+                : { color: 'var(--text)' }
           }>
           {/* {msg.content} */}
         </div>
@@ -102,6 +104,7 @@ function TypingIndicator() {
   )
 }
 
+// EmptyState introduces the assistant and turns common questions into one-click prompts.
 // ── Empty state ───────────────────────────────────────────────────────────────
 function EmptyState({ onSuggest }: { onSuggest: (t: string) => void }) {
   return (
@@ -142,10 +145,11 @@ function EmptyState({ onSuggest }: { onSuggest: (t: string) => void }) {
 
 // ── Page ──────────────────────────────────────────────────────────────────────
 export default function Chat() {
+  // Chat owns the view-local conversation and request lifecycle.
   const [messages, setMessages] = useState<Message[]>([])
-  const [input,    setInput]    = useState('')
-  const [loading,  setLoading]  = useState(false)
-  const bottomRef   = useRef<HTMLDivElement>(null)
+  const [input, setInput] = useState('')
+  const [loading, setLoading] = useState(false)
+  const bottomRef = useRef<HTMLDivElement>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 
   useEffect(() => {
@@ -159,6 +163,7 @@ export default function Chat() {
     ta.style.height = Math.min(ta.scrollHeight, 160) + 'px'
   }, [input])
 
+  // Send the complete conversation to the API so the model has context for its answer.
   const sendMessage = useCallback(async (text: string) => {
     const trimmed = text.trim()
     if (!trimmed || loading) return
@@ -194,6 +199,7 @@ export default function Chat() {
   }
   const isEmpty = messages.length === 0
 
+  // The page is split into a status header, scrollable transcript, and fixed composer.
   return (
     <div className="flex flex-col h-[calc(100vh-48px)] md:h-screen">
       {/* Ambient glow */}

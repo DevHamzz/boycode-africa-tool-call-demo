@@ -13,11 +13,12 @@ import ThemeSwitcher from './ThemeSwitcher'
 
 const navItems = [
   { label: 'Dashboard', icon: RiDashboardLine, to: '/dashboard' },
-  { label: 'Chat',      icon: RiChat3Line,     to: '/chat' },
-  { label: 'Activity',  icon: RiPulseLine,     to: '/activity' },
-  { label: 'Settings',  icon: RiSettings4Line, to: '/settings' },
+  { label: 'Chat', icon: RiChat3Line, to: '/chat' },
+  { label: 'Activity', icon: RiPulseLine, to: '/activity' },
+  { label: 'Settings', icon: RiSettings4Line, to: '/settings' },
 ]
 
+// Render one sidebar for both desktop and mobile so navigation behavior stays consistent.
 // ── Sidebar inner content ─────────────────────────────────────────────────────
 function SidebarContent({
   collapsed,
@@ -143,15 +144,18 @@ function SidebarContent({
 
 // ── Layout ────────────────────────────────────────────────────────────────────
 export default function Layout() {
-  const [collapsed,   setCollapsed]   = useState(false)
-  const [mobileOpen,  setMobileOpen]  = useState(false)
+  // Desktop collapses the sidebar; mobile opens it as a temporary drawer.
+  const [collapsed, setCollapsed] = useState(false)
+  const [mobileOpen, setMobileOpen] = useState(false)
 
+  // Close the mobile drawer when the viewport becomes desktop-sized.
   useEffect(() => {
     const handler = () => { if (window.innerWidth >= 768) setMobileOpen(false) }
     window.addEventListener('resize', handler)
     return () => window.removeEventListener('resize', handler)
   }, [])
 
+  // The shell combines the decorative background, responsive navigation, and routed content.
   return (
     <div className="flex h-screen w-screen overflow-hidden bg-grid relative"
       style={{ background: 'var(--bg)' }}>

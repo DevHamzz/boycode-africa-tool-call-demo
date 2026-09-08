@@ -6,12 +6,13 @@ import {
 } from 'react-icons/ri'
 
 const LOGS = [
-  { id: 1, Icon: RiTerminalBoxLine, label: 'Ran command', detail: 'npm install express cors', time: '2m ago', color: 'bg-sky-500/10 text-sky-400',      border: 'border-sky-500/20' },
-  { id: 2, Icon: RiFileTextLine,    label: 'Wrote file',  detail: 'server.ts',               time: '3m ago', color: 'bg-emerald-500/10 text-emerald-400', border: 'border-emerald-500/20' },
-  { id: 3, Icon: RiFolderOpenLine,  label: 'Listed dir',  detail: './',                       time: '4m ago', color: 'bg-amber-500/10 text-amber-400',    border: 'border-amber-500/20' },
-  { id: 4, Icon: RiRobot2Line,      label: 'AI replied',  detail: 'Explained Express setup',  time: '5m ago', color: 'bg-violet-500/10 text-violet-400',  border: 'border-violet-500/20' },
+  { id: 1, Icon: RiTerminalBoxLine, label: 'Ran command', detail: 'npm install express cors', time: '2m ago', color: 'bg-sky-500/10 text-sky-400', border: 'border-sky-500/20' },
+  { id: 2, Icon: RiFileTextLine, label: 'Wrote file', detail: 'server.ts', time: '3m ago', color: 'bg-emerald-500/10 text-emerald-400', border: 'border-emerald-500/20' },
+  { id: 3, Icon: RiFolderOpenLine, label: 'Listed dir', detail: './', time: '4m ago', color: 'bg-amber-500/10 text-amber-400', border: 'border-amber-500/20' },
+  { id: 4, Icon: RiRobot2Line, label: 'AI replied', detail: 'Explained Express setup', time: '5m ago', color: 'bg-violet-500/10 text-violet-400', border: 'border-violet-500/20' },
 ]
 
+// Activity entries are currently static presentation data for the activity timeline.
 const fadeUp = (delay = 0) => ({
   initial: { opacity: 0, y: 18 },
   animate: { opacity: 1, y: 0 },
@@ -19,6 +20,7 @@ const fadeUp = (delay = 0) => ({
 })
 
 export default function Activity() {
+  // Navigation lets the user move from the log to the full chat workspace.
   const navigate = useNavigate()
 
   return (
@@ -48,7 +50,7 @@ export default function Activity() {
         {[
           { label: 'Total Actions', value: LOGS.length },
           { label: 'Files Touched', value: 1 },
-          { label: 'Commands Run',  value: 1 },
+          { label: 'Commands Run', value: 1 },
         ].map((s) => (
           <motion.div key={s.label}
             variants={{ hidden: { opacity: 0, y: 14 }, visible: { opacity: 1, y: 0, transition: { duration: 0.45 } } }}

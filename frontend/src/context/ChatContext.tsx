@@ -16,13 +16,15 @@ interface ChatCtx {
 
 const Ctx = createContext<ChatCtx>({
   messages: [],
-  addMessage: () => {},
-  clearMessages: () => {},
+  addMessage: () => { },
+  clearMessages: () => { },
 })
 
+// Consumers use this hook instead of importing the context object directly.
 export const useChat = () => useContext(Ctx)
 
 export function ChatProvider({ children }: { children: ReactNode }) {
+  // Keep chat messages available to pages that need to display or update them.
   const [messages, setMessages] = useState<ChatMessage[]>([])
 
   const addMessage = (m: ChatMessage) =>

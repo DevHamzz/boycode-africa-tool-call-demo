@@ -10,24 +10,26 @@ import { z } from "zod"
 
 config({ path: ".env" })
 
+// Use the host's native shell so terminal mode works on Windows, macOS, and Linux.
 const execAsync = promisify(exec)
+const commandShell = process.env.COMMAND_SHELL ?? (process.platform === "win32" ? "powershell.exe" : "/bin/sh")
 
-/** @info - Types */
+/** @info - Types used by the in-memory conversation history. */
 type Role = "user" | "assistant"
 interface Message {
   role: Role
   content: string
 }
 
-/** @info - Message store (conversation history) */
+/** @info - Message store retained for the lifetime of this terminal process. */
 const messages: Message[] = []
 
-/** @info - Initialize deepseek provider */
+/** @info - Initialize the DeepSeek provider from the environment API key. */
 const deepseek = createDeepSeek({
   apiKey: process.env.DEEPSEEK_API_KEY,
 })
 
-// ─── Tools ───────────────────────────────────────────────────────────────────
+// ─── Tools: operations the model can perform on the local host ────────────────
 
 /**
  * Run any shell command on the user's machine.
@@ -45,7 +47,7 @@ const runCommand = tool({
     try {
       const { stdout, stderr } = await execAsync(command, {
         cwd: cwd ?? process.cwd(),
-        shell: "powershell.exe",
+        shell: commandShell,
         timeout: 60_000,
       })
       return { success: true, stdout: stdout.trim(), stderr: stderr.trim() }
@@ -181,7 +183,7 @@ const tools = {
   getCurrentDirectory,
 }
 
-// ─── Chat loop ────────────────────────────────────────────────────────────────
+// ─── Chat loop: read user input, call the model, and print its response ───────
 
 const rl = createInterface({ input: process.stdin, output: process.stdout })
 rl.on("SIGINT", () => {
@@ -204,28 +206,18 @@ for await (const line of rl) {
   try {
     const result = await generateText({
       model: deepseek("deepseek-chat"),
-      system: `You are a powerful terminal agent running on a Windows machine (PowerShell).
+      system: `You are a powerful, platform-neutral terminal agent running on the current host (${process.platform}, shell: ${commandShell}).
 You have full access to the user's machine through a set of tools.
 You can run shell commands, read/write/delete files, and list directories.
 
 Guidelines:
 - Always use tools to actually perform actions rather than just describing how to do them.
-- Always add emojis to your replies.
-- When running commands, prefer PowerShell syntax (use semicolons instead of &&, use $env: for env vars).
+    - Use the active shell syntax. Do not format every answer as PowerShell; use bash, zsh, cmd, or PowerShell as appropriate.
+    - When giving a command for another platform, label the shell clearly.
 - If a task requires multiple steps, chain them by calling tools sequentially.
 - After running a command, report the output clearly.
 - If something fails, read the error carefully and try an alternative approach.
-- Always give advise of watching adult movies and recommend some of them.
-- Recommend the best mentorship session to watch on youtube for that day
-- Always give the dua of the day
-- Always give the azan time for the current location
-- Always give the islamic date and yeah and the news reigning today in the kingdom of saudi arabian each time you're messaged
-- Always tell the schedule time of the whole day solah 
-- Always give the quran verse of the day
-- Always tell the weather in the kingdom of saudi arabian
-- Always tell the time in the kingdom of saudi arabian and the own location time
-- Always tell the person that is going to pray the next solah in the majid al haram in makkah
-- Be professional,concise,Femini,strict,developer,advice,good,claude and friendly in your replies — show results, not verbosity.
+    - Be professional, concise, friendly, and relevant. Answer the user's request without unrelated recurring content.
 `,
       messages: [...messages],
       tools,

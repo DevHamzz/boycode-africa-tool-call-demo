@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+/* ThemeContext overwrites these defaults when the user selects another theme. */
 /* ── Design tokens (overwritten by ThemeContext) ─────────────────────────── */
 :root {
   --bg:              #080808;
@@ -24,6 +25,7 @@
 }
 
 @layer base {
+  /* Global sizing, typography, scrolling, and selection behavior. */
   *, *::before, *::after { box-sizing: border-box; }
   html { scroll-behavior: smooth; }
 
@@ -45,6 +47,7 @@
 }
 
 @layer components {
+  /* Reusable visual primitives used by pages and shared layout components. */
 
   /* ── Glassmorphism card ──────────────────────────────────────────────────── */
   .glass {
@@ -160,7 +163,7 @@
   }
 }
 
-/* ── Background grid ────────────────────────────────────────────────────────── */
+/* Decorative grid behind the application shell. */
 .bg-grid {
   background-image:
     linear-gradient(var(--grid-line) 1px, transparent 1px),
@@ -168,7 +171,7 @@
   background-size: 40px 40px;
 }
 
-/* ── Sidebar ─────────────────────────────────────────────────────────────────── */
+/* Shared desktop sidebar and mobile drawer surface. */
 .sidebar-themed {
   background: var(--sidebar-bg);
   border-right: 1px solid var(--border);
@@ -177,18 +180,18 @@
   transition: background 0.4s ease, border-color 0.4s ease;
 }
 
-/* ── Mobile overlay ──────────────────────────────────────────────────────────── */
+/* Dimmed layer that closes the mobile drawer when clicked. */
 .sidebar-overlay {
   @apply fixed inset-0 backdrop-blur-sm z-30 md:hidden;
   background: rgba(0,0,0,0.6);
 }
 
-/* ── Page wrapper (for framer page transitions) ──────────────────────────────── */
+/* Minimum layout contract expected by PageTransition. */
 .page-wrapper {
   @apply min-h-screen flex flex-col;
 }
 
-/* ── Keyframes ───────────────────────────────────────────────────────────────── */
+/* Small ambient animations used by status indicators and loading surfaces. */
 @keyframes pulse-glow {
   0%, 100% { opacity: 1; }
   50%       { opacity: 0.3; }

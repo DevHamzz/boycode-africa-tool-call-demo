@@ -21,6 +21,7 @@ const COLORS = [
   '#a78bfa', // back to violet
 ]
 
+// Animate one character independently so the watermark feels like a living background layer.
 function AnimatedLetter({ char, index }: { char: string; index: number }) {
   return (
     <motion.span
@@ -71,6 +72,7 @@ function DevHamzWord({ opacity = 1 }: { opacity?: number }) {
 }
 
 export default function DevHamzBg() {
+  // The ref gives GSAP direct access to the scrolling track after it is mounted.
   const track = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -95,8 +97,8 @@ export default function DevHamzBg() {
         },
       })
 
-      // cleanup
-      ;(el as HTMLElement & { _gsapTl?: gsap.core.Tween })._gsapTl = tl
+        // cleanup
+        ; (el as HTMLElement & { _gsapTl?: gsap.core.Tween })._gsapTl = tl
     })
 
     return () => {
@@ -106,6 +108,7 @@ export default function DevHamzBg() {
     }
   }, [])
 
+  // Render two copies so the first can scroll out while the second enters seamlessly.
   return (
     <div
       aria-hidden="true"

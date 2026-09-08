@@ -13,13 +13,14 @@ interface ThemeOption {
 }
 
 const OPTIONS: ThemeOption[] = [
-  { id: 'dark',   label: 'Dark',   icon: BsMoon,          dot: 'bg-zinc-700',   ring: 'ring-zinc-500' },
-  { id: 'light',  label: 'Light',  icon: BsSun,           dot: 'bg-zinc-200',   ring: 'ring-zinc-400' },
-  { id: 'blue',   label: 'Ocean',  icon: MdWaterDrop,     dot: 'bg-sky-500',    ring: 'ring-sky-400' },
+  { id: 'dark', label: 'Dark', icon: BsMoon, dot: 'bg-zinc-700', ring: 'ring-zinc-500' },
+  { id: 'light', label: 'Light', icon: BsSun, dot: 'bg-zinc-200', ring: 'ring-zinc-400' },
+  { id: 'blue', label: 'Ocean', icon: MdWaterDrop, dot: 'bg-sky-500', ring: 'ring-sky-400' },
   { id: 'purple', label: 'Nebula', icon: RiVipDiamondLine, dot: 'bg-violet-500', ring: 'ring-violet-400' },
 ]
 
 export default function ThemeSwitcher({ collapsed }: { collapsed: boolean }) {
+  // Read and update the shared theme so every page changes together.
   const { theme, setTheme } = useTheme()
 
   return (

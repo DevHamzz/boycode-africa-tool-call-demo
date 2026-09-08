@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+// Tailwind scans these application files and generates only the utility classes they use.
 export default {
   content: ['./index.html', './src/**/*.{js,ts,jsx,tsx}'],
   theme: {

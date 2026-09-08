@@ -11,10 +11,11 @@ import { BiTrendingUp } from 'react-icons/bi'
 import { useChat } from '../context/ChatContext'
 import PageTransition from '../components/PageTransition'
 
-const HERO_IMG   = 'https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=900&q=80&auto=format&fit=crop'
+const HERO_IMG = 'https://images.unsplash.com/photo-1677442135703-1787eea5ce01?w=900&q=80&auto=format&fit=crop'
 const CARD_IMG_1 = 'https://images.unsplash.com/photo-1620712943543-bcc4688e7485?w=600&q=80&auto=format&fit=crop'
 const CARD_IMG_2 = 'https://images.unsplash.com/photo-1655720035861-ba4fd21a598d?w=600&q=80&auto=format&fit=crop'
 
+// These helpers keep greeting, date, and recent-activity text consistent across the dashboard.
 function getGreeting() {
   const h = new Date().getHours()
   if (h < 12) return 'Good Morning'
@@ -26,25 +27,25 @@ function formatDate(d: Date) {
 }
 function timeAgo(d: Date) {
   const s = Math.floor((Date.now() - d.getTime()) / 1000)
-  if (s < 60)  return `${s}s ago`
-  if (s < 3600) return `${Math.floor(s/60)}m ago`
-  if (s < 86400) return `${Math.floor(s/3600)}h ago`
+  if (s < 60) return `${s}s ago`
+  if (s < 3600) return `${Math.floor(s / 60)}m ago`
+  if (s < 86400) return `${Math.floor(s / 3600)}h ago`
   return d.toLocaleDateString()
 }
 
-/* ── animation helpers ── */
+/* Animation helpers centralize the reveal motion used by dashboard sections. */
 const ease = [0.22, 1, 0.36, 1] as const
 const fadeUp = (delay = 0) => ({
-  initial:    { opacity: 0, y: 22 },
-  animate:    { opacity: 1, y: 0 },
+  initial: { opacity: 0, y: 22 },
+  animate: { opacity: 1, y: 0 },
   transition: { duration: 0.5, delay, ease },
 })
 const staggerList = {
   animate: { transition: { staggerChildren: 0.07 } },
 }
 const listItem = {
-  initial:    { opacity: 0, x: -14 },
-  animate:    { opacity: 1, x: 0, transition: { duration: 0.4, ease } },
+  initial: { opacity: 0, x: -14 },
+  animate: { opacity: 1, x: 0, transition: { duration: 0.4, ease } },
 }
 
 /* ── Donut ── */
@@ -63,7 +64,7 @@ function DonutRing({ percent }: { percent: number }) {
         />
         <defs>
           <linearGradient id="dg" x1="0%" y1="0%" x2="100%" y2="0%">
-            <stop offset="0%"   stopColor="var(--accent)" />
+            <stop offset="0%" stopColor="var(--accent)" />
             <stop offset="100%" stopColor="var(--accent-light)" />
           </linearGradient>
         </defs>
@@ -105,10 +106,10 @@ function StatCard({ icon: Icon, label, value, sub, accent }: {
 
 /* ── Hero image card ── */
 function HeroCard() {
-  const now   = new Date()
-  const day   = now.getDate().toString().padStart(2, '0')
+  const now = new Date()
+  const day = now.getDate().toString().padStart(2, '0')
   const month = now.toLocaleDateString('en-US', { month: 'short' }).toUpperCase()
-  const year  = now.getFullYear()
+  const year = now.getFullYear()
   return (
     <motion.div
       {...fadeUp(0.1)}
@@ -207,9 +208,9 @@ function FloatingOrbs() {
 
 /* ── Page ── */
 export default function Dashboard() {
-  const navigate   = useNavigate()
+  const navigate = useNavigate()
   const [greeting] = useState(getGreeting())
-  const [dateStr]  = useState(formatDate(new Date()))
+  const [dateStr] = useState(formatDate(new Date()))
   const { messages } = useChat()
 
   // Build recent chats from real history — only user messages, newest first, deduplicated
@@ -220,10 +221,10 @@ export default function Dashboard() {
     .slice(0, 5)
 
   const stats = [
-    { icon: TbTargetArrow, label: 'Active Goals',  value: 0, sub: '0 total tasks', accent: '#8b5cf6' },
-    { icon: TbShieldCheck, label: 'Blocked Tasks', value: 0, sub: '0 completed',   accent: '#ef4444' },
-    { icon: TbCircleCheck, label: 'Completed',     value: 0, sub: '0% of total',   accent: '#10b981' },
-    { icon: BiTrendingUp,  label: 'Messages',      value: messages.length, sub: 'total sent', accent: '#0ea5e9' },
+    { icon: TbTargetArrow, label: 'Active Goals', value: 0, sub: '0 total tasks', accent: '#8b5cf6' },
+    { icon: TbShieldCheck, label: 'Blocked Tasks', value: 0, sub: '0 completed', accent: '#ef4444' },
+    { icon: TbCircleCheck, label: 'Completed', value: 0, sub: '0% of total', accent: '#10b981' },
+    { icon: BiTrendingUp, label: 'Messages', value: messages.length, sub: 'total sent', accent: '#0ea5e9' },
   ]
 
   return (

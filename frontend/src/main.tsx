@@ -6,6 +6,8 @@ import { ChatProvider } from './context/ChatContext'
 import App from './App'
 import './index.css'
 
+// Mount the React application and provide routing, theme state, and chat state
+// to every page below the root component.
 ReactDOM.createRoot(document.getElementById('root')!).render(
   <React.StrictMode>
     <BrowserRouter>
